@@ -1,45 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Device Properties Example</title>
-
-    <script type="text/javascript" charset="utf-8" src="res/phonegap-1.2.0.js"></script>
-    <script type="text/javascript" charset="utf-8">
-
-    // Wait for PhoneGap to load
-    //
-    document.addEventListener("deviceready", onDeviceReady, false);
-
-    // PhoneGap is ready
-    //
-    function onDeviceReady() {
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);
-    }
-
-    // onSuccess Geolocation
-    //
-    function onSuccess(position) {
-        var element = document.getElementById('geolocation');
-        element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
-                            'Longitude: '          + position.coords.longitude             + '<br />' +
-                            'Altitude: '           + position.coords.altitude              + '<br />' +
-                            'Accuracy: '           + position.coords.accuracy              + '<br />' +
-                            'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-                            'Heading: '            + position.coords.heading               + '<br />' +
-                            'Speed: '              + position.coords.speed                 + '<br />' +
-                            'Timestamp: '          + new Date(position.timestamp)          + '<br />';
-    }
-
-    // onError Callback receives a PositionError object
-    //
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n');
-    }
-
+<head>
+ 
+    <script>
+ 
+        function geolocation() {
+ 
+            var options = { enableHighAccuracy: true };
+                watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+ 
+            function onSuccess(position) {
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+ 
+                //localStorage.setItem("latitude", lat);
+                //localStorage.setItem("longitude", lng);
+ 
+                alert("lat: " + lat + "long: " + lng)
+            }
+ 
+            function onError(error) {
+              alert("error: " + error.message);
+                localStorage.setItem("error", error.message);
+            }
+ 
+        }
+ 
+        function removestorage() {
+            localStorage.removeItem("latitude");
+        }
+ 
     </script>
-  </head>
-  <body>
-    <p id="geolocation">Finding geolocation...</p>
-  </body>
+ 
+</head>
+<body>
+   <input type="button" value="where am i?" onclick="geolocation()">
+</body>
 </html>
