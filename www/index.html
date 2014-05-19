@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
- 
+ <script type='text/javascript' src='https://www.google.com/jsapi'></script>
     <script>
- 
+  
+   
         function geolocation() {
  
             var options = { enableHighAccuracy: true };
@@ -12,11 +13,12 @@
             function onSuccess(position) {
                 var lat = position.coords.latitude;
                 var lng = position.coords.longitude;
+                var speed = position.coords.speed;
  
                 //localStorage.setItem("latitude", lat);
                 //localStorage.setItem("longitude", lng);
  
-                alert("lat: " + lat + "long: " + lng)
+                alert("lat: " + lat + "long: " + lng + "Speed: " + speed)
             }
  
             function onError(error) {
@@ -31,9 +33,38 @@
         }
  
     </script>
+    
+     <head>
+    <script type='text/javascript'>
+      google.load('visualization', '1', {packages:['gauge']});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Speed', 55]
+          
+        ]);
+
+        var options = {
+          width: 400, height: 120,
+          redFrom: 90, redTo: 100,
+          yellowFrom:75, yellowTo: 90,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
  
 </head>
 <body>
    <input type="button" value="where am i?" onclick="geolocation()">
+   <div id='chart_div'></div>
+   <script>
+   setInterval(function(){drawChart()},3000);
+   </script>
+   
 </body>
 </html>
