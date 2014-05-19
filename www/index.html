@@ -9,7 +9,7 @@
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
           ['Label', 'Value'],
-          ['Speed', speed]
+          ['Speed', 57]
           
         ]);
 
@@ -22,7 +22,7 @@
 
         var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
         chart.draw(data, options);
-        document.getElementById("speed_div").val = speed;
+        //document.getElementById("speed_div").val = speed;
       }
      
         function geolocation() {
