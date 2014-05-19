@@ -4,6 +4,7 @@
  <script type='text/javascript' src='https://www.google.com/jsapi'></script>
     <head>
     <script type='text/javascript'>
+      var speed= 0;
       google.load('visualization', '1', {packages:['gauge']});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
@@ -33,7 +34,7 @@
             function onSuccess(position) {
                 var lat = position.coords.latitude;
                 var lng = position.coords.longitude;
-                var speed = position.coords.speed;
+                speed = position.coords.speed;
  				drawChart();
                 //localStorage.setItem("latitude", lat);
                 //localStorage.setItem("longitude", lng);
