@@ -6,6 +6,7 @@
     <script type='text/javascript'>
       var speed= 0;
       var longlat= "";
+      var count = 0;
       google.load('visualization', '1', {packages:['gauge']});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
@@ -39,6 +40,8 @@
  				drawChart();
                 //localStorage.setItem("latitude", lat);
                 //localStorage.setItem("longitude", lng);
+                
+                count = count + 1;
  				
                 longlat = "lat: " + lat + "long: " + lng + "Speed: " + speed;
             }
