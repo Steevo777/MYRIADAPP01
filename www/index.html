@@ -2,9 +2,29 @@
 <html>
 <head>
  <script type='text/javascript' src='https://www.google.com/jsapi'></script>
-    <script>
-  
-   
+    <head>
+    <script type='text/javascript'>
+      google.load('visualization', '1', {packages:['gauge']});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Speed', speed]
+          
+        ]);
+
+        var options = {
+          width: 400, height: 120,
+          redFrom: 90, redTo: 100,
+          yellowFrom:75, yellowTo: 90,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+        chart.draw(data, options);
+        document.getElementById("speed_div").val = speed;
+      }
+     
         function geolocation() {
  
             var options = { enableHighAccuracy: true };
@@ -14,11 +34,11 @@
                 var lat = position.coords.latitude;
                 var lng = position.coords.longitude;
                 var speed = position.coords.speed;
- 
+ 				drawChart();
                 //localStorage.setItem("latitude", lat);
                 //localStorage.setItem("longitude", lng);
- 
-                alert("lat: " + lat + "long: " + lng + "Speed: " + speed)
+ 				
+                //alert("lat: " + lat + "long: " + lng + "Speed: " + speed)
             }
  
             function onError(error) {
@@ -34,36 +54,16 @@
  
     </script>
     
-     <head>
-    <script type='text/javascript'>
-      google.load('visualization', '1', {packages:['gauge']});
-      google.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['Speed', 55]
-          
-        ]);
-
-        var options = {
-          width: 400, height: 120,
-          redFrom: 90, redTo: 100,
-          yellowFrom:75, yellowTo: 90,
-          minorTicks: 5
-        };
-
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
+     
   </head>
  
 </head>
 <body>
-   <input type="button" value="where am i?" onclick="geolocation()">
+   <!--<input type="button" value="where am i?" onclick="geolocation()">-->
    <div id='chart_div'></div>
+   <div id='speed_div'></div>
    <script>
-   setInterval(function(){drawChart()},3000);
+   setInterval(function(){geolocation()},3000);
    </script>
    
 </body>
