@@ -5,6 +5,7 @@
     <head>
     <script type='text/javascript'>
       var speed= 0;
+      var longlat= "";
       google.load('visualization', '1', {packages:['gauge']});
       google.setOnLoadCallback(drawChart);
       function drawChart() {
@@ -15,7 +16,7 @@
         ]);
 
         var options = {
-          width: 400, height: 120,
+          width: 400, height: 400,
           redFrom: 90, redTo: 100,
           yellowFrom:75, yellowTo: 90,
           minorTicks: 5
@@ -23,7 +24,7 @@
 
         var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
         chart.draw(data, options);
-        //document.getElementById("speed_div").val = speed;
+        document.getElementById("speed_div").val = longlat;
       }
      
         function geolocation() {
@@ -39,7 +40,7 @@
                 //localStorage.setItem("latitude", lat);
                 //localStorage.setItem("longitude", lng);
  				
-                //alert("lat: " + lat + "long: " + lng + "Speed: " + speed)
+                longlat = "lat: " + lat + "long: " + lng + "Speed: " + speed;
             }
  
             function onError(error) {
