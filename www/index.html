@@ -7,58 +7,60 @@
       var speed= 0;
       var longlat= "";
       var count = 0;
-      google.load('visualization', '1', {packages:['gauge']});
-      google.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Value'],
-          ['Speed', count]
-          
-        ]);
-
-        var options = {
-          width: 300, height: 300,
-          redFrom: 90, redTo: 100,
-          yellowFrom:75, yellowTo: 90,
-          minorTicks: 5
-        };
-
-        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-        chart.draw(data, options);
-        document.getElementById("speed_div").val = count;
-      }
+      
+	      google.load('visualization', '1', {packages:['gauge']});
+	      google.setOnLoadCallback(drawChart);
+	      function drawChart() {
+	        var data = google.visualization.arrayToDataTable([
+	          ['Label', 'Value'],
+	          ['Speed', count]
+	          
+	        ]);
+	
+	        var options = {
+	          width: 300, height: 300,
+	          redFrom: 90, redTo: 100,
+	          yellowFrom:75, yellowTo: 90,
+	          minorTicks: 5
+	        };
+	
+	        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+	        chart.draw(data, options);
+	        document.getElementById("speed_div").innerHTML = count;
+	      }
+	      
+      
      
-        function geolocation() {
+	        function geolocation() {
+	 
+	            var options = { enableHighAccuracy: true };
+	                watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
+	 
+	            function onSuccess(position) {
+	                var lat = position.coords.latitude;
+	                var lng = position.coords.longitude;
+	                speed = position.coords.speed;
+	 				drawChart();
+	                                
+	                count ++;
+	                //localStorage.setItem("latitude", lat);
+	                //localStorage.setItem("longitude", lng);
+	                //longlat = "lat: " + lat + "long: " + lng + "Speed: " + speed;
+	            }
+	 
+	            function onError(error) {
+	              alert("error: " + error.message);
+	                localStorage.setItem("error", error.message);
+	            }
+	 
+	        }
+	 
+	        function removestorage() {
+	            localStorage.removeItem("latitude");
+	        }
+	 
  
-            var options = { enableHighAccuracy: true };
-                watchID = navigator.geolocation.watchPosition(onSuccess, onError, options);
- 
-            function onSuccess(position) {
-                var lat = position.coords.latitude;
-                var lng = position.coords.longitude;
-                speed = position.coords.speed;
- 				drawChart();
-                //localStorage.setItem("latitude", lat);
-                //localStorage.setItem("longitude", lng);
-                
-                count ++;
- 				
-                //longlat = "lat: " + lat + "long: " + lng + "Speed: " + speed;
-            }
- 
-            function onError(error) {
-              alert("error: " + error.message);
-                localStorage.setItem("error", error.message);
-            }
- 
-        }
- 
-        function removestorage() {
-            localStorage.removeItem("latitude");
-        }
- 
- 
- 		var myLoc = setInterval(function(){geolocation()},3000);
+ 			var myLoc = setInterval(function(){geolocation()},3000);
     </script>
     
      
@@ -71,15 +73,13 @@
    <div id='speed_div'>Speedis:</div>
    <div id='speed2_div'></div>
    <script>
-   
-   
    var myVar = setInterval(function(){myTimer()}, 1000);
 
-function myTimer() {
-    var d = new Date();
-    var t = d.toLocaleTimeString();
-    document.getElementById("speed2_div").innerHTML = t;
-}
+	function myTimer() {
+	    var d = new Date();
+	    var t = d.toLocaleTimeString();
+	    document.getElementById("speed2_div").innerHTML = t;
+	}
    </script>
    
 </body>
