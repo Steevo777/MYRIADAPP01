@@ -41,9 +41,9 @@
                 //localStorage.setItem("latitude", lat);
                 //localStorage.setItem("longitude", lng);
                 
-                count = count + 1;
+                count ++;
  				
-                longlat = "lat: " + lat + "long: " + lng + "Speed: " + speed;
+                //longlat = "lat: " + lat + "long: " + lng + "Speed: " + speed;
             }
  
             function onError(error) {
@@ -67,8 +67,17 @@
    <!--<input type="button" value="where am i?" onclick="geolocation()">-->
    <div id='chart_div'></div>
    <div id='speed_div'></div>
+   <div id='speed2_div'></div>
    <script>
    setInterval(function(){geolocation()},3000);
+   
+   var myVar = setInterval(function(){myTimer()}, 1000);
+
+function myTimer() {
+    var d = new Date();
+    var t = d.toLocaleTimeString();
+    document.getElementById("speed2_div").innerHTML = t;
+}
    </script>
    
 </body>
