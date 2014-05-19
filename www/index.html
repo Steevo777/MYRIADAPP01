@@ -57,6 +57,8 @@
             localStorage.removeItem("latitude");
         }
  
+ 
+ 		var myLoc = setInterval(function(){geolocation()},3000);
     </script>
     
      
@@ -66,10 +68,10 @@
 <body>
    <!--<input type="button" value="where am i?" onclick="geolocation()">-->
    <div id='chart_div'></div>
-   <div id='speed_div'></div>
+   <div id='speed_div'>Speedis:</div>
    <div id='speed2_div'></div>
    <script>
-   setInterval(function(){geolocation()},3000);
+   
    
    var myVar = setInterval(function(){myTimer()}, 1000);
 
