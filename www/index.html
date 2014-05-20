@@ -11,9 +11,10 @@
 	      google.load('visualization', '1', {packages:['gauge']});
 	      google.setOnLoadCallback(drawChart);
 	      function drawChart() {
+	      	var speedMPH = (speed * 2.23693629);
 	        var data = google.visualization.arrayToDataTable([
 	          ['Label', 'Value'],
-	          ['Speed', speed]
+	          ['Speed', speedMPH]
 	          
 	        ]);
 	
