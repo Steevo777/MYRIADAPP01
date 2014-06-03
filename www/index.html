@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
- <script type='text/javascript' src='https://www.google.com/jsapi'></script>
-    <head>
+ <script type='text/javascript' src='https://www.google.com/jsapi'></script>	
+ <script type='text/javascript' src='res/phonegap-1.2.0.js'></script>
+ <script type='text/javascript' src='res/jquery-2.1.1.min.js'></script>    <head>
     <script type='text/javascript'>
       var speed= 0;
-      var longlat= "";
+      var long= 0;
+      var lat=0;
       var count = 0;
       
 	      google.load('visualization', '1', {packages:['gauge']});
@@ -28,6 +30,11 @@
 	        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
 	        chart.draw(data, options);
 	        document.getElementById("speed_div").innerHTML = speed;
+	        //$.post("http://www.a-information.com/txtblocker/geohndlr.php", { "speed": speed, "lat": lat, "long": long } );
+	      	$.ajax({type:"POST",url:"http://www.a-information.com/txtblocker/geohndlr.php",
+	      			dataType:"json",
+				    data:{ "speed": speed, "lat": lat, "long": long } //This should be an object
+				});
 	      }
 	      
       
@@ -38,19 +45,19 @@
 	                watchID = navigator.geolocation.watchPosition(onSuccess, onError,{frequency:5000,maximumAge: 0, timeout: 2000, enableHighAccuracy:true});
 	 
 	            function onSuccess(position) {
-	                var lat = position.coords.latitude;
-	                var lng = position.coords.longitude;
+	                lat = position.coords.latitude;
+	                long = position.coords.longitude;
 	                speed = position.coords.speed;
 	 				drawChart();
 	                                
 	                count ++;
 	                //localStorage.setItem("latitude", lat);
-	                //localStorage.setItem("longitude", lng);
-	                //longlat = "lat: " + lat + "long: " + lng + "Speed: " + speed;
+	                //localStorage.setItem("longitude", long);
+	                //longlat = "lat: " + lat + "long: " + long + "Speed: " + speed;
 	            }
 	 
 	            function onError(error) {
-	              alert("error: " + error.message);
+	              //alert("error: " + error.message);
 	                localStorage.setItem("error", error.message);
 	            }
 	 
@@ -74,7 +81,7 @@
    <div id='speed_div'>Speedis:</div>
    <div id='speed2_div'></div>
    <script>
-   var myVar = setInterval(function(){myTimer()}, 1000);
+   var myVar = setInterval(function(){myTimer()}, 5000);
 
 	function myTimer() {
 	    var d = new Date();
