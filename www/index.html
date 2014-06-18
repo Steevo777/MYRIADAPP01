@@ -29,7 +29,9 @@
 	
 	        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
 	        chart.draw(data, options);
+	        if 
 	        document.getElementById("speed_div").innerHTML = speed;
+	        
 	        //$.post("http://www.a-information.com/txtblocker/geohndlr.php", { "speed": speed, "lat": lat, "long": long } );
 	      	$.ajax({type:"POST",url:"http://www.a-information.com/txtblocker/geohndlr.php",
 	      			dataType:"json",
@@ -78,8 +80,11 @@
 <body>
    <!--<input type="button" value="where am i?" onclick="geolocation()">-->
    <div id='chart_div'></div>
+   
    <div id='speed_div'>Speedis:</div>
    <div id='speed2_div'></div>
+   <div id='map_div'><a href="map.html">Slide Map</a></div>
+   
    <script>
    var myVar = setInterval(function(){myTimer()}, 55000);
 

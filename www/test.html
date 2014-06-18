@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <script type='text/javascript' src='res/jquery-2.1.1.min.js'></script>    <head>
+    
+    <meta charset="utf-8">
+    <title>Map</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+     <script type='text/javascript'>
+ var username = "Steve";
+getLocations();
+
+function getLocations() {
+
+		$.ajax({
+    type: "POST",
+    url: "http://a-information.com/txtblocker/getlocs.php",
+    // The key needs to match your method's input parameter (case-sensitive).
+    data: {'userid': username },
+    success: function(data){
+    var parsed_data = $.parseJSON(data);
+    $.each(parsed_data, function(index, element) {
+      
+      addMarker(element.lat,element.long,element.speed,"speed");
+    });
+    
+    },
+    failure: function(errMsg) {
+        
+    }
+	});
+        }
+
+		
+		function addMarker(lat,long,speed,content) {
+        	document.getElementById("map-canvas").innerHTML = lat;	
+    	}
+		
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
+</html>
