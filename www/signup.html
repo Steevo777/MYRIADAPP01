@@ -1,0 +1,84 @@
+ 
+<html lang="en"><head>  
+<meta charset="utf-8">  
+<title>Text Blocker Sign Up</title>  
+<meta name="keywords" content="Text blocker" />  
+<meta name="description" content="Text blocker" /> 
+<script type='text/javascript' src='res/phonegap-1.2.0.js'></script>
+ <script type='text/javascript' src='res/jquery-2.1.1.min.js'></script>
+ <script type='text/javascript' src='res/jquery.touchSwipe.min.js'></script> 
+<link rel='stylesheet' href='res/js-form-validation.css' type='text/css' />  
+<script src="res/js-validations.js"></script>  
+</head>  
+<body onload="document.registration.userid.focus();">  
+<div id='container'>
+<h1>Sign Up</h1>  
+<p>Use tab keys to move from one input field to the next.</p>  
+<form name='registration' onSubmit="return formValidation();">  
+<ul>  
+<li><label for="userid">User id:</label></li>  
+<li><input type="text" name="userid" size="12" /></li>  
+<li><label for="passid">Password:</label></li>  
+<li><input type="password" name="passid" size="12" /></li>   
+<li><label for="email">Email:</label></li>  
+<li><input type="text" name="email" size="50" /></li>  
+<li><input type="submit" name="submit" value="Submit" /></li>  
+</ul>  
+</form> 
+</div> 
+</body> 
+
+<script>
+ $(document).ready(function(){
+function formVandJsubmit()
+{
+	//if formValidation()
+	//{
+	
+	//Submit data in json
+	$.ajax({
+    type: "POST",
+    url: "http://a-information.com/txtblocker/signuphndlr.php",
+    // The key needs to match your method's input parameter (case-sensitive).
+    data: {'userid': userid, 'password': password },
+    success: function(data){
+    var parsed_data = $.parseJSON(data);
+    $.each(parsed_data, function(index, element) {
+      appendToStorage('userid', element.userid);
+      document.getElementById("logged_status_div").innerHTML = "logged In";
+    });
+    
+    },
+    
+    failure: function(errMsg) {
+    }
+
+	});
+	
+	
+	//} end form validation
+}
+
+function appendToStorage(name, data){
+    var old = localStorage.getItem(name);
+    if(old === null) old = "";
+    localStorage.setItem(name, old + data);
+}
+       
+       $('#container').swipe({
+        	swipe:function(event, direction, distance, duration, fingerCoount)
+        		{
+        		switch(direction){
+        			case "right":
+        				window.location = 'index.html';
+        				break;
+        				}
+        		}
+        	});
+	});
+   
+   
+
+</script> 
+<div id='logged_status_div'></div>
+</html>  

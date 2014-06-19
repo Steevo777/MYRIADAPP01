@@ -4,7 +4,9 @@
  <script type='text/javascript' src='https://www.google.com/jsapi'></script>	
  <script type='text/javascript' src='res/phonegap-1.2.0.js'></script>
  <script type='text/javascript' src='res/jquery-2.1.1.min.js'></script>
- <link rel="stylesheet" type="text/css" href="res/txtblocker.css">    <head>
+ <script type='text/javascript' src='res/jquery.touchSwipe.min.js'></script>
+ <link rel="stylesheet" type="text/css" href="res/txtblocker.css"> 
+ <head>
     <script type='text/javascript'>
       var speed= 0;
       var long= 0;
@@ -30,7 +32,6 @@
 	
 	        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
 	        chart.draw(data, options);
-	        if 
 	        document.getElementById("speed_div").innerHTML = speed;
 	        
 	        //$.post("http://www.a-information.com/txtblocker/geohndlr.php", { "speed": speed, "lat": lat, "long": long } );
@@ -71,7 +72,7 @@
 	        }
 	 
  
- 			var myLoc = setInterval(function(){geolocation()},55000);
+ 			var myLoc = setInterval(function(){geolocation()},300000);
     </script>
     
      
@@ -101,19 +102,19 @@
 			</div>                     
 		</li>
 		<li id="signup">
-			<a href="">Sign up FREE</a>
+			<a href="signup.html">Sign up FREE</a>
 		</li>
 	</ul>
 </nav>
 </header>
 <body>
-   <!--<input type="button" value="where am i?" onclick="geolocation()">-->
+   <div id='container'>
    <div id='chart_div'></div>
    
    <div id='speed_div'>Speedis:</div>
    <div id='speed2_div'></div>
-   <div id='map_div'><a href="map.html">Slide Map</a></div>
    
+   </div>
    <script>
    $(document).ready(function(){
         $('#login-trigger').click(function(){
@@ -123,15 +124,20 @@
                 if ($(this).hasClass('active')) $(this).find('span').html('u')
                         else $(this).find('span').html('&#x25BC;')
                 })
-
-   var myVar = setInterval(function(){myTimer()}, 55000);
-
-	function myTimer() {
-	    var d = new Date();
-	    var t = d.toLocaleTimeString();
-	    document.getElementById("speed2_div").innerHTML = t;
-	}
-	
+                
+        $('#container').swipe({
+        	swipe:function(event, direction, distance, duration, fingerCoount)
+        		{
+        		switch(direction){
+        			case "left":
+        				window.location = 'signup.html';
+        				break;
+        			case "right":
+        				window.location = 'map.html';
+        				break;
+        				}
+        		}
+        	});
 	});
    </script>
    
