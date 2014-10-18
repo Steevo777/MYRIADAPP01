@@ -6,6 +6,7 @@
   $speed = $_POST['speed'];
   $lat = $_POST['lat'];
   $long = $_POST['long'];
+  $altitude = $_POST['altitude'];
   
   $date = date('Y-m-d H:i:s'); 
   
@@ -19,8 +20,8 @@
 	 {    echo( "<PA>Database is syncing at this time. Try again later. </PA>" );
 	     exit();  }
  	   
-  $sql="INSERT INTO  `Geolocate` (  `speed` ,  `lat` ,  `long`,`date` ) 
-VALUES ('$speed' , '$lat',  '$long', '$date');"; 
+  $sql="INSERT INTO  `Geolocate` (  `speed` ,  `lat` ,  `long`,`date`,`altitude` ) 
+VALUES ('$speed' , '$lat',  '$long', '$date', '$altitude');"; 
   $result = mysql_query($sql); 
    
   // Mysql_num_row is counting table row 

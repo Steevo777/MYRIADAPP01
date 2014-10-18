@@ -12,35 +12,40 @@
 </head>  
 <body onload="document.registration.userid.focus();">  
 <div id='container'>
-<h1>Sign Up</h1>  
+<h1>Sign Up</h1> 
+<div id='logged_status_div'>Not logged In</div> 
 <p>Use tab keys to move from one input field to the next.</p>  
-<form name='registration' onSubmit="return formValidation();">  
+ 
 <ul>  
 <li><label for="userid">User id:</label></li>  
-<li><input type="text" name="userid" size="12" /></li>  
+<li><input type="text" id="userid" size="12" /></li>  
 <li><label for="passid">Password:</label></li>  
-<li><input type="password" name="passid" size="12" /></li>   
+<li><input type="password" id="passid" size="12" /></li>   
 <li><label for="email">Email:</label></li>  
-<li><input type="text" name="email" size="50" /></li>  
-<li><input type="submit" name="submit" value="Submit" /></li>  
+<li><input type="text" id="email" size="50" /></li>  
+<li><a id="login-trigger" href="#">
+				Log in <span>&#x25BC;</span>
+			</a></li>  
 </ul>  
-</form> 
+
 </div> 
 </body> 
 
 <script>
  $(document).ready(function(){
-function formVandJsubmit()
+
+$('#login-trigger').click(function()
 {
 	//if formValidation()
 	//{
-	
+	var userid = document.getElementById("userid");
+	var passid = document.getElementById("passid");
 	//Submit data in json
 	$.ajax({
     type: "POST",
     url: "http://a-information.com/txtblocker/signuphndlr.php",
     // The key needs to match your method's input parameter (case-sensitive).
-    data: {'userid': userid, 'password': password },
+    data: {'userid': userid, 'passid': passid },
     success: function(data){
     var parsed_data = $.parseJSON(data);
     $.each(parsed_data, function(index, element) {
@@ -57,7 +62,9 @@ function formVandJsubmit()
 	
 	
 	//} end form validation
-}
+	
+	return true;
+})
 
 function appendToStorage(name, data){
     var old = localStorage.getItem(name);

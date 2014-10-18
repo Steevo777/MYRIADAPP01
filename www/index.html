@@ -4,10 +4,43 @@
  <script type='text/javascript' src='https://www.google.com/jsapi'></script>	
  <script type='text/javascript' src='res/phonegap-1.2.0.js'></script>
  <script type='text/javascript' src='res/jquery-2.1.1.min.js'></script>
+ <script type='text/javascript' src='res/cordova-1.5.0.js'></script>
+ 
  <script type='text/javascript' src='res/jquery.touchSwipe.min.js'></script>
  <link rel="stylesheet" type="text/css" href="res/txtblocker.css"> 
  <head>
     <script type='text/javascript'>
+    document.addEventListener("deviceready", onDeviceReady, false);
+    
+    function onDeviceReady() {
+        var db = window.openDatabase("hk1000", "1.0", "hk1000", 200000);
+        db.transaction(populateDB, errorCB, successCB);
+    }
+    
+    function populateDB(tx) {
+     tx.executeSql('CREATE TABLE IF NOT EXISTS hk1000 (id INTEGER PRIMARY KEY, lat TEXT, long TEXT, speed TEXT, altitude TEXT)');
+     //tx.executeSql('DROP TABLE IF EXISTS hk1000');
+     //tx.executeSql('CREATE TABLE hk1000 (id INTEGER PRIMARY KEY, field1, etc)');
+     //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
+     //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+}
+    
+    // Transaction error callback
+    //
+    function errorCB(err) {
+        alert("Error processing SQL: "+err);
+    }
+
+    // Transaction success callback
+    //
+    function successCB() {
+        alert("success!");
+    }
+    
+    
+      
+      
+      
       var speed= 0;
       var long= 0;
       var lat=0;
@@ -34,10 +67,16 @@
 	        chart.draw(data, options);
 	        document.getElementById("speed_div").innerHTML = speed;
 	        
-	        //$.post("http://www.a-information.com/txtblocker/geohndlr.php", { "speed": speed, "lat": lat, "long": long } );
+	        //Add database insert code here for looping
+	         db.transaction(function (tx) {
+   				tx.executeSql('INSERT INTO hk1000 (speed, lat, long, altitude) VALUES (?, ?,?,?)', [speed, lat, long, altitude]);
+				});
+	        
+	        
+	        //$.post("http://www.a-information.com/txtblocker/geohndlr.php", { "speed": speed, "lat": lat, "long": long, "altitude":altitude } );
 	      	$.ajax({type:"POST",url:"http://www.a-information.com/txtblocker/geohndlr.php",
 	      			dataType:"json",
-				    data:{ "speed": speed, "lat": lat, "long": long } //This should be an object
+				    data:{ "speed": speed, "lat": lat, "long": long, "altitude":altitude } //This should be an object
 				});
 	      }
 	      
@@ -52,6 +91,7 @@
 	                lat = position.coords.latitude;
 	                long = position.coords.longitude;
 	                speed = position.coords.speed;
+	                altitude = position.coords.altitude;
 	 				drawChart();
 	                                
 	                count ++;
