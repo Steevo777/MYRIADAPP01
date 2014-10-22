@@ -11,8 +11,18 @@
 		die();
 	}	
  
+ 
   $userid = $_POST['userid'];
   $date = date('Y-m-d H:i:s');
+  $parts = parse_url($url);
+
+$parts = parse_url($url);
+parse_str($parts['query'], $query);
+echo $query['userid'];
+
+  Echo $userid;
+  
+  echo $userid;
   
   //$userid = "Steve"; 
   
