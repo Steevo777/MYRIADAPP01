@@ -17,6 +17,18 @@
         db.transaction(populateDB, errorCB, successCB);
     }
     
+    // Transaction error callback
+    //
+    function errorCB(err) {
+        alert("Error processing SQL: "+err);
+    }
+
+    // Transaction success callback
+    //
+    function successCB() {
+        alert("success!");
+    }
+    
     function populateDB(tx) {
      tx.executeSql('CREATE TABLE IF NOT EXISTS hk1000 (id INTEGER PRIMARY KEY, lat TEXT, long TEXT, speed TEXT, altitude TEXT)');
      //tx.executeSql('DROP TABLE IF EXISTS hk1000');
@@ -70,10 +82,10 @@
 	        
 	        document.getElementById("database_write2_div").innerHTML = "altitude";
 	        //Add database insert code here for looping
-	        // db.transaction(function (tx) {
-   			//	tx.executeSql('INSERT INTO hk1000 (speed, lat, long, altitude) VALUES (?, ?,?,?)', [speed, lat, long, altitude]);
-			//	});
-	        document.getElementById("database_write2_div").innerHTML = "altitude";
+	        db.transaction(function (tx) {
+   				tx.executeSql('INSERT INTO hk1000 (speed, lat, long, altitude) VALUES (?, ?,?,?);', [speed, lat, long, altitude]);
+				});
+	        document.getElementById("database_write2_div").innerHTML = "altitudeInsert";
 	        
 	        //$.post("http://www.a-information.com/txtblocker/geohndlr.php", { "speed": speed, "lat": lat, "long": long, "altitude":altitude } );
 	      	$.ajax({type:"POST",url:"http://www.a-information.com/txtblocker/geohndlr.php",
