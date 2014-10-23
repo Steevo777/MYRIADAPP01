@@ -72,7 +72,7 @@
 	         db.transaction(function (tx) {
    				tx.executeSql('INSERT INTO hk1000 (speed, lat, long, altitude) VALUES (?, ?,?,?)', [speed, lat, long, altitude]);
 				});
-	        document.getElementById("database_write2_div").innerHTML = altitude;
+	        document.getElementById("database_write2_div").innerHTML = "altitude";
 	        
 	        //$.post("http://www.a-information.com/txtblocker/geohndlr.php", { "speed": speed, "lat": lat, "long": long, "altitude":altitude } );
 	      	$.ajax({type:"POST",url:"http://www.a-information.com/txtblocker/geohndlr.php",
