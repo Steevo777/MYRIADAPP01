@@ -12,29 +12,19 @@
     <script type='text/javascript'>
     document.addEventListener("deviceready", onDeviceReady, false);
     
+    var db;
+    
     function onDeviceReady() {
-        var db = window.openDatabase("hk1000", "1.0", "hk1000", 200000);
+        db = window.openDatabase("hk1000", "1.0", "hk1000", 200000);
         db.transaction(populateDB, errorCB, successCB);
     }
     
-    // Transaction error callback
-    //
-    function errorCB(err) {
-        alert("Error processing SQL: "+err);
-    }
-
-    // Transaction success callback
-    //
-    function successCB() {
-        alert("success!");
-    }
-    
     function populateDB(tx) {
-     //tx.executeSql('CREATE TABLE IF NOT EXISTS hk1000 (id INTEGER PRIMARY KEY, lat TEXT, long TEXT, speed TEXT, altitude TEXT)');
-     tx.executeSql('DROP TABLE IF EXISTS DEMO');
-     tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
-     tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
-     tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+     tx.executeSql('CREATE TABLE IF NOT EXISTS hk1000 (id INTEGER PRIMARY KEY, lat TEXT, long TEXT, speed TEXT, altitude TEXT)');
+     //tx.executeSql('DROP TABLE IF EXISTS DEMO');
+     //tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
+     //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
+     //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
      
 }
     
@@ -47,11 +37,14 @@
     // Transaction success callback
     //
     function successCB() {
-        alert("success!");
+        //alert("success!");
     }
     
-    
-      
+    function insertDB(tx) {
+   		var sql = 'INSERT INTO hk1000 (speed, lat, long, altitude) VALUES (?, ?, ?, ?)';
+   		tx.executeSql(sql, [speed,long,lat,altitude], successCB, errorDB);
+				
+    } 
       
       
       var speed= 0;
@@ -82,12 +75,10 @@
 	        document.getElementById("speed_div").innerHTML = speed;
 	        
 	        document.getElementById("database_write2_div").innerHTML = altitude;
+	        
 	        //Add database insert code here for looping
-	        db.transaction(function (tx) {
-   				//tx.executeSql('INSERT INTO hk1000 (speed, lat, long, altitude) VALUES ("test", "test","test","test");'); //, [speed, lat, long, altitude]);
-				
-				
-				});
+	        db.transaction(insertDB,errorCB)
+	        
 	        document.getElementById("database_write2_div").innerHTML = "altitudeInsert";
 	        
 	        //$.post("http://www.a-information.com/txtblocker/geohndlr.php", { "speed": speed, "lat": lat, "long": long, "altitude":altitude } );
