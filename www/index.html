@@ -30,11 +30,12 @@
     }
     
     function populateDB(tx) {
-     tx.executeSql('CREATE TABLE IF NOT EXISTS hk1000 (id INTEGER PRIMARY KEY, lat TEXT, long TEXT, speed TEXT, altitude TEXT)');
-     //tx.executeSql('DROP TABLE IF EXISTS hk1000');
-     //tx.executeSql('CREATE TABLE hk1000 (id INTEGER PRIMARY KEY, field1, etc)');
-     //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
-     //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+     //tx.executeSql('CREATE TABLE IF NOT EXISTS hk1000 (id INTEGER PRIMARY KEY, lat TEXT, long TEXT, speed TEXT, altitude TEXT)');
+     tx.executeSql('DROP TABLE IF EXISTS DEMO');
+     tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
+     tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
+     tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+     
 }
     
     // Transaction error callback
@@ -80,10 +81,12 @@
 	        chart.draw(data, options);
 	        document.getElementById("speed_div").innerHTML = speed;
 	        
-	        document.getElementById("database_write2_div").innerHTML = "altitude";
+	        document.getElementById("database_write2_div").innerHTML = altitude;
 	        //Add database insert code here for looping
 	        db.transaction(function (tx) {
-   				tx.executeSql('INSERT INTO hk1000 (speed, lat, long, altitude) VALUES ("test", "test","test","test");'); //, [speed, lat, long, altitude]);
+   				//tx.executeSql('INSERT INTO hk1000 (speed, lat, long, altitude) VALUES ("test", "test","test","test");'); //, [speed, lat, long, altitude]);
+				
+				
 				});
 	        document.getElementById("database_write2_div").innerHTML = "altitudeInsert";
 	        
