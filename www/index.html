@@ -53,11 +53,13 @@
 
     // Wait for PhoneGap to load
     //
-    //document.addEventListener("deviceready", onDeviceReady, false);
-	
-	document.addEventListener("deviceready", function(){
-      alert("deviceready");
- },true);
+    function init(){
+  document.addEventListener("deviceready", onDeviceReady, false);
+}
+
+function onDeviceReady(){
+  alert('123');
+}
 
     // PhoneGap is ready
     //
@@ -89,7 +91,8 @@
         document.getElementById("database_write2_div").innerHTML = "new2";
         alert("success!");
     }
-
+	
+	init();
     onDeviceReady();
     </script>
     <script>
