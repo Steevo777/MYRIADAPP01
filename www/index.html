@@ -5,14 +5,15 @@
  
     <script type="text/javascript" charset="utf-8" src="phonegap-1.2.0.js"></script>
     <script type="text/javascript" charset="utf-8">
-    
+    document.getElementById("database_write2_div").innerHTML = "open ";
      // Wait for PhoneGap to load
     //
     document.addEventListener("deviceready", onDeviceReady, false);
-
+	document.getElementById("database_write2_div").innerHTML = "listener success!";
     // PhoneGap is ready
     //
     function onDeviceReady() {
+    document.getElementById("database_write2_div").innerHTML = "device ready!";
         var db = window.openDatabase("Database", "1.0", "PhoneGap Demo", 200000);
         document.getElementById("database_write2_div").innerHTML = "open success!";
         db.transaction(populateDB, errorCB, successCB);
