@@ -7,6 +7,154 @@
 	<script type='text/javascript' src='res/jquery-2.1.1.min.js'></script>
 	<script type='text/javascript' src='res/cordova-1.5.0.js'></script>
 	<script type='text/javascript' src='res/jquery.touchSwipe.min.js'></script>
+  <script type="text/javascript" charset="utf-8">
+    // Worker Thread get GPS and log
+    
+    
+    //Database Calls
+    function createDatabase() {
+        document.getElementById("database_write2_div").innerHTML = "ready fired";
+        var db = window.openDatabase("HikeLog", "1.0", "PhoneGap Demo", 200000);
+        db.transaction(populateDB, errorCB, successCB);
+    }
+
+    
+    // Create Table
+    function populateDB(tx) {
+         tx.executeSql('CREATE TABLE IF NOT EXISTS hk1000 (id INTEGER PRIMARY KEY, lat TEXT, long TEXT, speed TEXT, altitude TEXT)');
+         //tx.executeSql('DROP TABLE IF EXISTS DEMO');
+         //tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
+         //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
+         //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+    }
+
+    // Transaction error callback
+    function errorCB(err) {
+        alert("Error processing SQL: "+err);
+    }
+
+    // Transaction success callback
+    function successCB() {
+        document.getElementById("database_write2_div").innerHTML = "new2";
+        alert("success!");
+    }
+	//End Database Calls
+	
+	//Main Worker Thread
+	var speed= 0;
+    var long= 0;
+    var lat=0;
+    var altitude=0;
+    var count = 0;
+	
+	//Load up the Gauges
+	google.load('visualization', '1', {packages:['gauge']});
+	google.setOnLoadCallback(drawChart);
+	
+	//Get the Speed Update the Gauge and Send the Data to PHP
+	function drawChart() {
+	      	var speedMPH = (speed * 2.23693629);
+	        var data = google.visualization.arrayToDataTable([
+	          ['Label', 'Value'],
+	          ['Speed', speedMPH]
+	          
+	        ]);
+	
+	        var options = {
+	          width: 300, height: 300,
+	          redFrom: 90, redTo: 100,
+	          yellowFrom:75, yellowTo: 90,
+	          minorTicks: 5
+	        };
+	
+	        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+	        chart.draw(data, options);
+	        document.getElementById("speed_div").innerHTML = speed;
+	        
+	        document.getElementById("database_write2_div").innerHTML = altitude;
+	        
+	        //Add database insert code here for looping
+	        //db.transaction(insertDB,errorCB);
+	        
+	        document.getElementById("database_write2_div").innerHTML = altitude;
+	        
+	        //$.post("http://www.a-information.com/txtblocker/geohndlr.php", { "speed": speed, "lat": lat, "long": long, "altitude":altitude } );
+	      	$.ajax({type:"POST",url:"http://www.a-information.com/txtblocker/geohndlr.php",
+	      			dataType:"json",
+				    data:{ "speed": speed, "lat": lat, "long": long, "altitude":altitude } //This should be an object
+				});
+	 }
+	
+	 function geolocation() {
+	 
+	        var options = { enableHighAccuracy: true };
+	        watchID = navigator.geolocation.watchPosition(onSuccess, onError,{frequency:5000,maximumAge: 0, timeout: 2000, enableHighAccuracy:true});
+	 
+	 		//If the geolocation worked 
+	        function onSuccess(position) {
+	        	lat = position.coords.latitude;
+	        	long = position.coords.longitude;
+	            speed = position.coords.speed;
+	            altitude = position.coords.altitude;
+	 				
+	 			drawChart();
+	                                
+	            count ++;
+	            //localStorage.setItem("latitude", lat);
+	            //localStorage.setItem("longitude", long);
+	            //longlat = "lat: " + lat + "long: " + long + "Speed: " + speed;
+	            }
+	 
+	        function onError(error) {
+	            //alert("error: " + error.message);
+	            localStorage.setItem("error", error.message);
+	        	}
+	 
+	   }
+	 
+	    function removestorage() {
+	        localStorage.removeItem("latitude");
+	    }
+	 
+ 
+ 		//Runs the main thread at 30 seconds
+ 	    var myLoc = setInterval(function(){geolocation()},300000);
+	
+	
+	
+	  
+	
+    </script>
+    <script>
+    	//Sliding scripts for navigation
+		   $(document).ready(function(){
+		        $('#login-trigger').click(function(){
+		                $(this).next('#login-content').slideToggle();
+		                $(this).toggleClass('active');                                  
+		
+		                if ($(this).hasClass('active')) $(this).find('span').html('u')
+		                        else $(this).find('span').html('&#x25BC;')
+		                })
+		                
+		        $('#container').swipe({
+		        	swipe:function(event, direction, distance, duration, fingerCoount)
+		        		{
+		        		switch(direction){
+		        			case "left":
+		        				window.location = 'signup.html';
+		        				break;
+		        			case "right":
+		        				window.location = 'map.html';
+		        				break;
+		        				}
+		        		}
+		        	});
+			});
+   </script>
+  
+  
+  
+  
   </head>
  
 <header class="cf">
@@ -42,85 +190,12 @@
    <div id='speed_div'>Speedis:</div>
    <div id='speed2_div'></div>
    <br>
-   <br><br><br><br><br>
    
    <div id='database_write_div'>Data Write Debug 2:</div>
    <div id="database_write2_div">Tester</div>
    
    </div>
-  <script type="text/javascript" charset="utf-8">
-   
-
-    // Wait for PhoneGap to load
-    //
-    function init(){
-  document.addEventListener("deviceready", onDeviceReady, false);
-}
-
-function onDeviceReady(){
-  alert('123');
-}
-
-    // PhoneGap is ready
-    //
-    function onDeviceReady() {
-               document.getElementById("database_write2_div").innerHTML = "ready fired";
-  
-        var db = window.openDatabase("Database", "1.0", "PhoneGap Demo", 200000);
-        db.transaction(populateDB, errorCB, successCB);
-    }
-
-    // Populate the database 
-    //
-    function populateDB(tx) {
-         tx.executeSql('DROP TABLE IF EXISTS DEMO');
-         tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
-         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
-         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
-    }
-
-    // Transaction error callback
-    //
-    function errorCB(err) {
-        alert("Error processing SQL: "+err);
-    }
-
-    // Transaction success callback
-    //
-    function successCB() {
-        document.getElementById("database_write2_div").innerHTML = "new2";
-        alert("success!");
-    }
-	
-	init();
-    onDeviceReady();
-    </script>
-    <script>
-   $(document).ready(function(){
-        $('#login-trigger').click(function(){
-                $(this).next('#login-content').slideToggle();
-                $(this).toggleClass('active');                                  
-
-                if ($(this).hasClass('active')) $(this).find('span').html('u')
-                        else $(this).find('span').html('&#x25BC;')
-                })
-                
-        $('#container').swipe({
-        	swipe:function(event, direction, distance, duration, fingerCoount)
-        		{
-        		switch(direction){
-        			case "left":
-        				window.location = 'signup.html';
-        				break;
-        			case "right":
-        				window.location = 'map.html';
-        				break;
-        				}
-        		}
-        	});
-	});
-   </script>
-   
+     
     
     
 
