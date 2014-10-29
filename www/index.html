@@ -10,118 +10,38 @@
  <link rel="stylesheet" type="text/css" href="res/txtblocker.css"> 
  <head>
     <script type='text/javascript'>
+     // Wait for PhoneGap to load
+    //
     document.addEventListener("deviceready", onDeviceReady, false);
-    
-    var db;
-    
+
+    // PhoneGap is ready
+    //
     function onDeviceReady() {
-        db = window.openDatabase("hk1000", "1.0", "hk1000", 200000);
+        var db = window.openDatabase("Database", "1.0", "PhoneGap Demo", 200000);
         db.transaction(populateDB, errorCB, successCB);
     }
-    
+
+    // Populate the database 
+    //
     function populateDB(tx) {
-     tx.executeSql('CREATE TABLE IF NOT EXISTS hk1000 (id INTEGER PRIMARY KEY, lat TEXT, long TEXT, speed TEXT, altitude TEXT)');
-     //tx.executeSql('DROP TABLE IF EXISTS DEMO');
-     //tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
-     //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
-     //tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
-     
-}
-    
+         tx.executeSql('DROP TABLE IF EXISTS DEMO');
+         tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
+         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
+         tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+    }
+
     // Transaction error callback
     //
-    function errorCB(err) {
+    function errorCB(tx, err) {
         alert("Error processing SQL: "+err);
     }
 
     // Transaction success callback
     //
     function successCB() {
-        //alert("success!");
+        alert("success!");
     }
-    
-    function insertDB(tx) {
-   		var sql = 'INSERT INTO hk1000 (speed, lat, long, altitude) VALUES (?, ?, ?, ?)';
-   		tx.executeSql(sql, [speed,long,lat,altitude], successCB, errorDB);
-				
-    } 
-      
-      
-      var speed= 0;
-      var long= 0;
-      var lat=0;
-      var altitude=0;
-      var count = 0;
-      
-	      google.load('visualization', '1', {packages:['gauge']});
-	      google.setOnLoadCallback(drawChart);
-	      function drawChart() {
-	      	var speedMPH = (speed * 2.23693629);
-	        var data = google.visualization.arrayToDataTable([
-	          ['Label', 'Value'],
-	          ['Speed', speedMPH]
-	          
-	        ]);
-	
-	        var options = {
-	          width: 300, height: 300,
-	          redFrom: 90, redTo: 100,
-	          yellowFrom:75, yellowTo: 90,
-	          minorTicks: 5
-	        };
-	
-	        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-	        chart.draw(data, options);
-	        document.getElementById("speed_div").innerHTML = speed;
-	        
-	        document.getElementById("database_write2_div").innerHTML = "new";
-	        
-	        //Add database insert code here for looping
-	        db.transaction(insertDB,errorCB)
-	        
-	        document.getElementById("database_write2_div").innerHTML = "altitudeInsert";
-	        
-	        //$.post("http://www.a-information.com/txtblocker/geohndlr.php", { "speed": speed, "lat": lat, "long": long, "altitude":altitude } );
-	      	$.ajax({type:"POST",url:"http://www.a-information.com/txtblocker/geohndlr.php",
-	      			dataType:"json",
-				    data:{ "speed": speed, "lat": lat, "long": long, "altitude":altitude } //This should be an object
-				});
-	      }
-	      
-      
-     
-	        function geolocation() {
-	 
-	            var options = { enableHighAccuracy: true };
-	                watchID = navigator.geolocation.watchPosition(onSuccess, onError,{frequency:5000,maximumAge: 0, timeout: 2000, enableHighAccuracy:true});
-	 
-	            function onSuccess(position) {
-	                lat = position.coords.latitude;
-	                long = position.coords.longitude;
-	                speed = position.coords.speed;
-	                altitude = position.coords.altitude;
-	 				drawChart();
-	                                
-	                count ++;
-	                //localStorage.setItem("latitude", lat);
-	                //localStorage.setItem("longitude", long);
-	                //longlat = "lat: " + lat + "long: " + long + "Speed: " + speed;
-	            }
-	 
-	            function onError(error) {
-	              //alert("error: " + error.message);
-	                localStorage.setItem("error", error.message);
-	            }
-	 
-	        }
-	 
-	        function removestorage() {
-	            localStorage.removeItem("latitude");
-	        }
-	 
- 
- 			var myLoc = setInterval(function(){geolocation()},300000);
-    </script>
+        </script>
     
      
   </head>
