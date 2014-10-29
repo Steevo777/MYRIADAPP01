@@ -61,6 +61,8 @@
     // PhoneGap is ready
     //
     function onDeviceReady() {
+               document.getElementById("database_write2_div").innerHTML = "ready fired";
+  
         var db = window.openDatabase("Database", "1.0", "PhoneGap Demo", 200000);
         db.transaction(populateDB, errorCB, successCB);
     }
@@ -87,6 +89,7 @@
         alert("success!");
     }
 
+    onDeviceReady();
     
 </script>
 </body>
