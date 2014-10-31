@@ -9,7 +9,12 @@
 	<script type='text/javascript' src='res/jquery.touchSwipe.min.js'></script>
   <script type="text/javascript" charset="utf-8">
     // Worker Thread get GPS and log
-    
+    //Main Worker Thread
+	var speed= 0;
+    var long= 0;
+    var lat=0;
+    var altitude=0;
+    var count = 0;
     
     //Database Calls
     function createDatabase() {
@@ -40,12 +45,7 @@
     }
 	//End Database Calls
 	
-	//Main Worker Thread
-	var speed= 0;
-    var long= 0;
-    var lat=0;
-    var altitude=0;
-    var count = 0;
+	
 	
 	//Load up the Gauges
 	google.load('visualization', '1', {packages:['gauge']});
@@ -107,16 +107,12 @@
 	 
 	        function onError(error) {
 	            //alert("error: " + error.message);
-	            localStorage.setItem("error", error.message);
+	            //localStorage.setItem("error", error.message);
 	        	}
 	 
 	   }
 	 
-	    function removestorage() {
-	        localStorage.removeItem("latitude");
-	    }
-	 
- 
+	    
  		//Runs the main thread at 30 seconds
  	    var myLoc = setInterval(function(){geolocation()},300000);
 	
@@ -196,6 +192,14 @@
    
    </div>
      
-   
+    <script>   
+ 		//Runs the main thread at 30 seconds
+ 	    var myLoc2 = setInterval(function(){geolocation()},300000);
+	
+	
+	
+	  
+	
+    </script>
 </body>
 </html>
