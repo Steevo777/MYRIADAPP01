@@ -54,7 +54,7 @@
 	
 	//Get the Speed Update the Gauge and Send the Data to PHP
 	function drawChart() {
-	alert("success44!");
+	
 	      	var speedMPH = (speed * 2.23693629);
 	        var data = google.visualization.arrayToDataTable([
 	          ['Label', 'Value'],
@@ -71,7 +71,7 @@
 	
 	        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
 	        chart.draw(data, options);
-	        alert("success draw");
+	        
 	        document.getElementById("speed_div").innerHTML = speed;
 	        
 	        document.getElementById("database_write2_div").innerHTML = 23; //altitude;
@@ -176,7 +176,7 @@
 			</div>                     
 		</li>
 		<li id="signup">
-			<a href="signup.html">Sign up FREE Ver 5</a>
+			<a href="signup.html">Sign up FREE Ver 5.7</a>
 		</li>
 	</ul>
 </nav>
