@@ -80,7 +80,7 @@
 	        //db.transaction(insertDB,errorCB);
 	        
 	        document.getElementById("database_write2_div").innerHTML = altitude;
-	        alert("post success!");
+	        
 	        //$.post("http://www.a-information.com/txtblocker/geohndlr.php", { "speed": speed, "lat": lat, "long": long, "altitude":altitude } );
 	      	$.ajax({type:"POST",url:"http://www.a-information.com/txtblocker/geohndlr.php",
 	      			dataType:"json",
@@ -102,7 +102,7 @@
 	 				
 	 			drawChart();
 	            
-	            alert("Alt:"+altitude);
+	            //alert("Alt:"+altitude);
 	            document.getElementById("database_write2_div").innerHTML = altitude;
 	       
 	                                
@@ -177,7 +177,7 @@
 			</div>                     
 		</li>
 		<li id="signup">
-			<a href="signup.html">Sign up FREE Ver 8</a>
+			<a href="signup.html">Sign up FREE Ver 9</a>
 		</li>
 	</ul>
 </nav>
@@ -186,11 +186,11 @@
    <div id='container'>
    <div id='chart_div'></div>
    
-   <div id='speed_div'>Speedis:</div>
+   <div id='speed_div'>Speed is:</div>
    <div id='speed2_div'></div>
    <br>
    
-   <div id='database_write_div'>Data Write Debug 2:</div>
+   <div id='database_write_div'>Altitude is:</div>
    <div id="database_write2_div">Tester</div>
    
    </div>
