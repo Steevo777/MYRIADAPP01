@@ -102,7 +102,7 @@
 	 				
 	 			drawChart();
 	            
-	            document.getElementById("database_write2_div").innerHTML = 35; //altitude;
+	            document.getElementById("database_write2_div").innerHTML = altitude;
 	       
 	                                
 	            count ++;
@@ -118,11 +118,7 @@
 	 
 	   }
 	 
-	    
- 		//Runs the main thread at 30 seconds
- 	    var myLoc = setInterval(function(){geolocation()},300000);
-	
-	
+	  
 	
 	  
 	
@@ -200,9 +196,7 @@
      
     <script>   
  		//Runs the main thread at 30 seconds
- 	    //var myLoc2 = setInterval(function(){geolocation()},300000);
- 	    alert("timer code");
-	setInterval(function () {geolocation()}, 3000);
+ 	    setInterval(function () {geolocation()}, 10000);
 	
 	
 	  
