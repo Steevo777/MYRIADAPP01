@@ -20,7 +20,7 @@
     function createDatabase() {
         document.getElementById("database_write2_div").innerHTML = "ready fired";
         var db = window.openDatabase("HikeLog", "1.0", "PhoneGap Demo", 200000);
-        db.transaction(populateDB, errorCB, successCB);
+        //db.transaction(populateDB, errorCB, successCB);
     }
 
     
@@ -54,6 +54,7 @@
 	
 	//Get the Speed Update the Gauge and Send the Data to PHP
 	function drawChart() {
+	alert("success44!");
 	      	var speedMPH = (speed * 2.23693629);
 	        var data = google.visualization.arrayToDataTable([
 	          ['Label', 'Value'],
@@ -70,6 +71,7 @@
 	
 	        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
 	        chart.draw(data, options);
+	        alert("success draw");
 	        document.getElementById("speed_div").innerHTML = speed;
 	        
 	        document.getElementById("database_write2_div").innerHTML = 23; //altitude;
@@ -78,7 +80,7 @@
 	        //db.transaction(insertDB,errorCB);
 	        
 	        document.getElementById("database_write2_div").innerHTML = altitude;
-	        
+	        alert("post success!");
 	        //$.post("http://www.a-information.com/txtblocker/geohndlr.php", { "speed": speed, "lat": lat, "long": long, "altitude":altitude } );
 	      	$.ajax({type:"POST",url:"http://www.a-information.com/txtblocker/geohndlr.php",
 	      			dataType:"json",
@@ -178,7 +180,7 @@
 			</div>                     
 		</li>
 		<li id="signup">
-			<a href="signup.html">Sign up FREE Ver 3</a>
+			<a href="signup.html">Sign up FREE Ver 5</a>
 		</li>
 	</ul>
 </nav>
